@@ -5,10 +5,20 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ 5c31cb08-528d-4afd-97c4-f31e906c1f2f
-using Plots, Formatting, Printf
+using Plots, Formatting
 
 # ╔═╡ 49b71206-7e39-4b10-9512-5a2686b4fbed
-md"""# Programação + Matemática"""
+md"""# Programação + Matemática
+
+Se você precisa melhorar sua base matemática, confira o projeto [Matemática Elementar para Computação](https://matematica.pgdinamica.com), em que cobrimos os fundamentos da matemática.
+
+Para esta tarefa, um conhecimento sólido sobre **porcentagem** e frações é muito útil.
+"""
+
+# ╔═╡ e301fd00-2bed-4739-9d97-c02155f7a665
+html"""
+<iframe width="560" height="315" src="https://www.youtube.com/embed/yfkWatbh6pg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+"""
 
 # ╔═╡ ba478ad2-923a-11eb-01c7-354a0ae468c6
 md"""# Calculando o Imposto de Renda"""
@@ -67,32 +77,14 @@ md"""
 begin 
 	aliquotas = [7.5, 15.0, 22.5, 27.5]
 	deducao = [142.80, 354.80, 636.13, 869.36]
-	function faixa(rendimento)
-		if rendimento <= 1903.98
-			0
-		elseif rendimento <= 2826.65
-			1
-		elseif rendimento <= 3751.05
-			2
-		elseif rendimento <= 4664.68
-			3
-		else
-			4
-		end
-	end
 
 	function impostoretido(rendimento)
-		fx = faixa(rendimento)
-		if fx == 0
-			0
-		else
-			rendimento * aliquotas[fx] / 100 - deducao[fx]
-		end
+		0.0
 	end
 end
 
 # ╔═╡ ed2071e8-f1b2-4030-bb55-ecf6d9e14a05
-salario = 5000.00
+salario = 3000.00
 
 # ╔═╡ d29f0d7e-a382-42e9-9191-df06ec8db07d
 md"""
@@ -111,26 +103,17 @@ Contribuição ao Instituto Nacional do Seguro Social (INSS) - previdenciária, 
 # ╔═╡ 9dd8d374-18f5-4667-8348-8f00b3118b4e
 function contribINSS(rendimento)
 	limites = [0.0, 1100.00, 2203.45, 3305.22, 6433.57]
-	alqtINSS = [7.5, 9.0, 12.0, 14.0] / 100
-	
-	base = min(rendimento, limites[end])
-	desconto = 0.0
-	for i in 1:length(limites)-1
-		if base > limites[i]
-			desconto += min(limites[i+1] - limites[i], 
-							base - limites[i]) * alqtINSS[i]
-		end
-	end
-	desconto
+	alqtINSS = [7.5, 9.0, 12.0, 14.0]
+	0.0
 end
 
 # ╔═╡ ee7a5da5-0142-4e1e-a326-5670a932abd3
 begin
 	desconto_inss = contribINSS(salario)
 	desconto_irpf = impostoretido(salario - desconto_inss)
-	salariof = @sprintf("%.2f", salario)	
-	continssf = @sprintf("%.2f", desconto_inss) 
-	impostof = @sprintf("%.2f", desconto_irpf)
+	salariof = fmt(".2f", salario)	
+	continssf = fmt(".2f", desconto_inss) 
+	impostof = fmt(".2f", desconto_irpf)
 	liquidof = fmt(".2f", salario - desconto_inss - desconto_irpf)
 
 	
@@ -181,23 +164,22 @@ function ir2(rendimento)
 	imposto
 end
 
-	
-
 # ╔═╡ Cell order:
 # ╟─49b71206-7e39-4b10-9512-5a2686b4fbed
+# ╟─e301fd00-2bed-4739-9d97-c02155f7a665
 # ╟─ba478ad2-923a-11eb-01c7-354a0ae468c6
 # ╟─57fa967a-923b-11eb-13e2-2dec29fa487b
 # ╟─87f38538-923b-11eb-245c-813542bdddec
-# ╠═5c31cb08-528d-4afd-97c4-f31e906c1f2f
+# ╟─5c31cb08-528d-4afd-97c4-f31e906c1f2f
 # ╟─37419e62-923b-11eb-01cd-cd06444df836
 # ╠═df553db6-50cc-4a93-a73c-195374a8751b
 # ╟─daa7435f-1a2a-48ed-8401-ee4d629cb29d
-# ╠═451b58d8-0674-403d-b132-d528de0d9644
+# ╟─451b58d8-0674-403d-b132-d528de0d9644
+# ╟─ee7a5da5-0142-4e1e-a326-5670a932abd3
 # ╠═ed2071e8-f1b2-4030-bb55-ecf6d9e14a05
 # ╟─d29f0d7e-a382-42e9-9191-df06ec8db07d
-# ╠═9dd8d374-18f5-4667-8348-8f00b3118b4e
-# ╟─ee7a5da5-0142-4e1e-a326-5670a932abd3
+# ╟─9dd8d374-18f5-4667-8348-8f00b3118b4e
 # ╟─7a173210-c864-4f8c-9c77-607b5b2b7b74
-# ╠═e59d4f5a-bee7-4708-a888-55148688c550
-# ╠═ac2c9f10-04ba-4525-b6e3-561fb928bd02
-# ╠═3d8e3700-b19e-4c43-8b2d-41da1ce6a566
+# ╟─e59d4f5a-bee7-4708-a888-55148688c550
+# ╟─ac2c9f10-04ba-4525-b6e3-561fb928bd02
+# ╟─3d8e3700-b19e-4c43-8b2d-41da1ce6a566
